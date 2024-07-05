@@ -4,11 +4,13 @@ import Container from './container/Container';
 import Logo from './Logo';
 import Logout from "./Header/Logout"
 import Button from './Button'
+import RTE from "./RTE";
 export {
     Header,
     Footer,
     Container,
     Logo,
     Logout,
-    Button
+    Button,
+    RTE
 }
