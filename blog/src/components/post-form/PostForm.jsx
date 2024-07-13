@@ -13,7 +13,7 @@ function PostForm({ post }) {
         title: post?.title || "",
         slug: post?.slug || "",
         content: post?.content || "",
-        stauts: post?.stauts || "active",
+        status: post?.status || "active",
       },
     });
 
@@ -66,11 +66,10 @@ function PostForm({ post }) {
 
   useEffect(() => {
     // subscription bnta aapke watch method se,actual aap jo method run usko subscription hold kr shkte hai
-    const subscription = watch((value, {name})=>{
-
-        if(name === 'title'){
-            setValue('slug',slugTransform(value.title,{shouldValidate: true}))
-        }
+    const subscription = watch((value, { name }) => {
+      if (name === "title") {
+        setValue("slug", slugTransform(value.title, { shouldValidate: true }));
+      }
     });
 
     return () => {
@@ -80,14 +79,62 @@ function PostForm({ post }) {
 
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-        <div className="w-2/3 px-2"> 
+      <div className="w-2/3 px-2">
         <Input
-        label="title:"
-        
+          label="Title:"
+          placeholder="Title"
+          {...register("title", { required: true })}
+        />
+        <Input
+          label="Slug:"
+          placeholder="Slug"
+          className="mb-4"
+          {...register("slug", { required: true })}
+          onInput={(e) => {
+            setValue("slug", slugTransform(e.currentTarget.value), {
+              shouldValidate: true,
+            });
+          }}
+        />
+        <RTE
+          label="Content :"
+          name="Content"
+          control={control}
+          defaultValue={getValues("content")}
+        />
+      </div>
+      <div className="w-1/3 px-2">
+        <Input
+          label="Feature Image"
+          className="mb-4"
+          accept="image/png, image/jpg,image/gif , image/jpeg"
+          type="file"
+          {...register("image", { required: !post })}
         />
 
-        </div>
-
+        {post && (
+          <div className="w-full mb-4">
+            <img
+              src={service.getFilePreview(post.featureImage)}
+              alt={post.title}
+              className="rounded-lg"
+            />
+          </div>
+        )}
+        <Select
+          options={["active", "inactive"]}
+          label="Status"
+          className="mb-4"
+          {...register("stauts", { required: true })}
+        />
+        <Button
+          type="submit"
+          bgColor={post ? "bg-green-500" : undefined}
+          className="w-full"
+        >
+          {post ? "update" : "submit"}
+        </Button>
+      </div>
     </form>
   );
 }

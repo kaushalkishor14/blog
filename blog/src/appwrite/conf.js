@@ -1,5 +1,5 @@
 import config from "../conf/config.js";
-import { Client, Account, ID, Databases, Storage, Query } from "appwrite";
+import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Service {
 
@@ -12,7 +12,7 @@ export class Service {
             .setEndpoint(config.appwriteUrl)
             .setProject(config.appwriteProjectId);
         this.databases = new Databases(this.client);
-        this.buket = Storage(this.client);
+        this.buket =  new Storage(this.client);
     }
 
     async createPost({ title, slug, content, featureImage, status, userId }) {
@@ -88,7 +88,7 @@ export class Service {
         )
     ]){
         try {
-            await this.databases.listDocuments(
+         return   await this.databases.listDocuments(
                 config.appwriteDatabaseId,
                 config.appwriteCollectionId,
                 queries,
@@ -148,6 +148,6 @@ export class Service {
     
 }
 
-const service = Service()
+const service = new Service()
 
 export default service
