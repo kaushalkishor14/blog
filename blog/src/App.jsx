@@ -23,8 +23,8 @@ function App() {
   
 
   return !loading ? (
-    <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
-      <diV className="w-full block">
+    <div className="min-h-screen  flex flex-wrap content-between  bg-red-50 ">
+      <diV className="w-full ">
         <Header />
         <main>
           todo
